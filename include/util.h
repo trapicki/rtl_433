@@ -100,5 +100,10 @@ float kmph2mph(float kph);
 /// @return speed in kilometers per hour
 float mph2kmph(float kph);
 
+/// Convert integer to binary representation
+///
+/// @param x: integer to convert
+/// @return char* with binary representation
+const char *byte_to_binary(int x);
 
 #endif /* INCLUDE_UTIL_H_ */

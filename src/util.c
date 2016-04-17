@@ -10,6 +10,8 @@
 
 #include "util.h"
 #include <stdio.h>
+#include <string.h>
+
 
 uint8_t reverse8(uint8_t x) {
     x = (x & 0xF0) >> 4 | (x & 0x0F) << 4;
@@ -126,6 +128,20 @@ float kmph2mph(float kmph)
 float mph2kmph(float mph)
 {
     return mph * 1.609344;
+}
+
+const char *byte_to_binary(int x)
+{
+    static char b[9];
+    b[0] = '\0';
+
+    int z;
+    for (z = 128; z > 0; z >>= 1)
+    {
+        strcat(b, ((x & z) == z) ? "1" : "0");
+    }
+
+    return b;
 }
 
 
