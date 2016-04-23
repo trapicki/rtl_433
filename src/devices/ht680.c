@@ -11,7 +11,7 @@
 static int ht680_callback(bitbuffer_t *bitbuffer) {
 	bitrow_t *bb = bitbuffer->bb;
 	data_t *data;
-	
+
 	for (uint8_t row = 0;row < bitbuffer->num_rows;row++){
 		uint8_t *b = bb[row];
 		if(bitbuffer->bits_per_row[row] == 40 && //Length of packet is 40
@@ -20,7 +20,7 @@ static int ht680_callback(bitbuffer_t *bitbuffer) {
 			(b[3] & 0x82) == 0x82 && //Buttons(4,3) always mask 10000010
 			(b[4] & 0x0A) == 0x0A){  //Buttons(2,1) always mask 00001010
 			b[0] = b[0] & 0x0F; //Clear sync
-						
+
 			// Tristate coding
 			char tristate[21];
 			char *p = tristate;
@@ -36,7 +36,7 @@ static int ht680_callback(bitbuffer_t *bitbuffer) {
 				}
 			}
 			*p = '\0';
-			
+
 			data = data_make("model",	"",				DATA_STRING,	"HT680 Remote control",
 							 "tristate","Tristate code",DATA_STRING,	tristate,
 							 "address",	"Address",	DATA_FORMAT,	"0x%06X", DATA_INT, (b[0]<<16)+(b[1]<<8)+b[2],
@@ -46,7 +46,7 @@ static int ht680_callback(bitbuffer_t *bitbuffer) {
 							 "button4",	"Button 4",		DATA_STRING,	((((b[3]&0x7D)>>4) & 0x03) == 3) ? "PRESSED" : "",
 							 NULL);
 			data_acquired_handler(data);
-			
+
 			return 1;
 		}
 	}
